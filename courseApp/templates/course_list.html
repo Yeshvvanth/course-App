@@ -1,0 +1,48 @@
+{% extends 'base.html' %} {% block content %}
+<h2>List of courses</h2>
+<div class="card">
+  <div class="card-body">
+    <div class="mb-4">
+      <a href="{%url 'upload_course'%}" class="btn btn-primary btn-sm"
+        >Upload Course</a
+      >
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>course_pdf</th>
+          <th>course_video</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for course in courses %}
+
+        <tr>
+          <td>{{course.title}}</td>
+
+          <td>{{course.course_pdf}}</td>
+          <td>
+            <video width="320" height="240" controls type="video/mp4">
+              <source src="{{ course.course_video.url }}" />
+            </video>
+          </td>
+
+          <td>
+            <form method="post" action="{%url 'delete_course' course.pk%}">
+              {%csrf_token%}
+              <button type="submit" class="btn btn-primary btn-sm">
+                Delete
+              </button>
+            </form>
+          </td>
+        </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}
